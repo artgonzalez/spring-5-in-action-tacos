@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.tacos.web.HomeController;
+import com.example.tacos.web.WebConfig;
 
-@WebMvcTest(HomeController.class)
+
+
+@WebMvcTest(WebConfig.class)
 public class HomeControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
