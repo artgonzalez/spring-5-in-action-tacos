@@ -8,7 +8,10 @@
 <body>
 	<h1>Design your taco!</h1>
 	<img th:src="@{/images/TacoCloud.png}" />
-	<form method="POST" th:object="${design}">
+	<form method="POST" th:action="@{/logout}" id="logoutForm">
+		<input type="submit" value="Logout"/>
+	</form>
+	<form method="POST" th:object="${design}" id="designForm">
 		<div class="grid">
 			<span class="validationError"
 				th:if="${#fields.hasErrors('ingredients')}"
@@ -57,6 +60,7 @@
 				class="validationError" th:if="${#fields.hasErrors('name')}"
 				th:errors="*{name}">Name Error</span> <br />
 			<button>Submit your taco</button>
+			<input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 		</div>
 	</form>
 </body>

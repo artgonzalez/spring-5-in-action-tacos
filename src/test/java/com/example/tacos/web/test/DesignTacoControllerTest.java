@@ -3,10 +3,11 @@ package com.example.tacos.web.test;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 import java.util.Arrays;
 import java.util.List;
@@ -85,7 +86,7 @@ public class DesignTacoControllerTest {
 
   @Test
   public void testShowDesignForm() throws Exception {
-    mockMvc.perform(get("/design"))
+    mockMvc.perform(get("/design").with(user("user")))
         .andExpect(status().isOk())
         .andExpect(view().name("design"))
         .andExpect(model().attribute("wrap", ingredients.subList(0, 2)))
@@ -97,14 +98,13 @@ public class DesignTacoControllerTest {
 
   @Test
   public void processDesign() throws Exception {
-    when(designRepository.save(design))
-        .thenReturn(design);
-
-    mockMvc.perform(post("/design")
-        .content("name=Test+Taco&ingredients=FLTO,GRBF,CHED")
-        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
-        .andExpect(status().is2xxSuccessful());
-        //.andExpect(header().stringValues("Location", ""));
-  }
+	  when(designRepository.save(design))
+      .thenReturn(design);
+  
+  mockMvc.perform(post("/design").with(csrf()).with(user("user"))
+      .content("name=Test+Taco&ingredients=FLTO,GRBF,CHED")
+      .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+      .andExpect(status().isOk());
+       }
 
 }
