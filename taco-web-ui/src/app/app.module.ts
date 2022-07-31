@@ -14,7 +14,7 @@ import { TacoFooterComponent } from './taco-footer/taco-footer.component';
     CloudTitleComponent,
     HomeComponent,
     TacoHeaderComponent,
-    TacoFooterComponent
+    TacoFooterComponent,
   ],
   imports: [
     BrowserModule,
