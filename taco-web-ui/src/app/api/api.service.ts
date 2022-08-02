@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Ingredient } from '../domain/ingredient'
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
   
-  get(path: String) {
-    return this.http.get('http://localhost:8080' + path);
-  }
+  getIngredients(){
+      return this.httpClient.get<Ingredient[]>('http://localhost:8080/api/ingredients');
+  }  
 }
