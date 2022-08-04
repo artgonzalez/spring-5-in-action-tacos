@@ -54,13 +54,7 @@ export class DesignComponent implements OnInit {
   // tag::onSubmit[]
   onSubmit(frm: NgForm) {
 	this.cart.addToCart(this.model)
-	/*this.httpClient.post(
-        'http://localhost:8080/design',
-        this.model, {
-            headers: new HttpHeaders().set('Content-type', 'application/json'),
-        }).subscribe(taco => this.cart.addToCart(taco));*/
     frm.reset()
-    //this.router.navigate(['/cart']);
   }
 
    @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;	
