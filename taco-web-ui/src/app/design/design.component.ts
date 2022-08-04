@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ElementRef, Input } from '@angular/core';
+import {NgForm} from '@angular/forms'
 import { Router } from '@angular/router';
 import { ApiService } from '../api/api.service';
 import { Ingredient } from '../domain/ingredient'
+import {CartService } from '../service/cart.service'
 
 @Component({
   selector: 'design',
@@ -13,7 +15,7 @@ export class DesignComponent implements OnInit {
 	
    model = {
     name: '',
-    ingredients: [Ingredient]
+    ingredients:  new Array<Ingredient>()
   };
 
   allIngredients!: Ingredient[];
@@ -23,7 +25,7 @@ export class DesignComponent implements OnInit {
   cheeses!: Ingredient[];
   sauces!: Ingredient[];		
 	
-  constructor(private httpClient: ApiService) { }
+  constructor(private httpClient: ApiService, private router: Router, private cart: CartService) { }
 
   ngOnInit(): void {
 	
@@ -50,8 +52,24 @@ export class DesignComponent implements OnInit {
   }
 
   // tag::onSubmit[]
-  onSubmit() {
+  onSubmit(frm: NgForm) {
+	this.cart.addToCart(this.model)
+	/*this.httpClient.post(
+        'http://localhost:8080/design',
+        this.model, {
+            headers: new HttpHeaders().set('Content-type', 'application/json'),
+        }).subscribe(taco => this.cart.addToCart(taco));*/
+    frm.reset()
+    //this.router.navigate(['/cart']);
   }
+
+   @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;	
+  
+  uncheckAll() {
+	this.checkboxes.forEach((element) => {
+	  element.nativeElement.checked = false;
+	});
+  }  
 }
 
 
